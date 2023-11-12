@@ -5,22 +5,28 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
+
 import java.util.ArrayList;
 
 /**
  * Se encarga de manejar los archivos de entrada y salida
  */
 public class FileHandler {
-    
+
     private String inputFile;
     private String outputFile;
 
     public FileHandler(String inputFile, String outputFile) {
-        this.inputFile = "../data/" + inputFile;
-        this.outputFile = "../data/results/" + outputFile;
+        this.inputFile = "./src/main/java/com/appdist/data/" + inputFile;
+        this.outputFile = "./src/main/java/com/appdist/data/results/" + outputFile;
     }
 
     public ArrayList<Tuple> generateBufferMaps(int nodos) {
+
         System.out.println("Examinando archivo");
         ArrayList<Tuple> listaTuples = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
@@ -38,9 +44,11 @@ public class FileHandler {
 
                 int hash = sb.hashCode() % nodos;
                 listaTuples.add(new Tuple(hash, sb.toString()));
+            } else {
+                Logger.getAnonymousLogger().log(Level.INFO, "Archivo no existe");
             }
         } catch (IOException ex) {
-           System.out.println("Error en : "+ ex.getMessage());
+            System.out.println("Error en : " + ex.getMessage());
         }
 
         return listaTuples;
@@ -59,7 +67,7 @@ public class FileHandler {
                 myWriter.write(tupla.getKey() + " " + tupla.getValue() + "\n");
             }
             myWriter.close();
-            System.out.println("Archivo creado exitosamente.");
+            JOptionPane.showMessageDialog(null, "Archivo creado exitosamente.");
 
         } catch (IOException e) {
             System.out.println("Ocurrió un error al escribir el archivo." + e.getMessage());

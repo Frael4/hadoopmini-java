@@ -14,6 +14,11 @@ public class BufferMap {
         return sortedList;
     }
 
+    /**
+     * 
+     * @param lstTuples
+     * @param nodos
+     */
     public void splitBuffer(ArrayList<Tuple> lstTuples, int nodos) {
         for (Tuple tupla : lstTuples) {
             int nodoReducer = tupla.getKey().hashCode() % nodos;
@@ -21,8 +26,13 @@ public class BufferMap {
         }
     }
 
+    /**
+     * 
+     */
     public void sortBuffer() {
+
         for (Tuple tupla : splittedList) {
+
             int clave1 = (int) tupla.getKey();
             int posicion = searchBufferReducer(clave1);
             Tuple tuplaDelaTuple = (Tuple) tupla.getValue();
@@ -41,6 +51,11 @@ public class BufferMap {
         }
     }
 
+    /**
+     * 
+     * @param reducer
+     * @return
+     */
     public int searchBufferReducer(int reducer) {
         for (int i = 0; i < sortedList.size(); i++) {
             BufferReducer bufferReducer = sortedList.get(i);

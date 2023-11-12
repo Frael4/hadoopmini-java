@@ -15,28 +15,47 @@ public class BufferReducer {
         this.tuplesList = tuplesList;
     }
 
+    /**
+     * 
+     * @param tupla
+     * @return
+     */
     public int searchTupleInListOfTuples(Tuple tupla) {
+
         for (int i = 0; i < tuplesList.size(); i++) {
+
             String claveTpTmp = (String) tuplesList.get(i).getKey();
+
             if (claveTpTmp.compareTo((String) tupla.getKey()) == 0) {
                 return i;
             }
+
         }
         return -1;
     }
 
+    /**
+     * 
+     * @param tupla
+     */
     @SuppressWarnings("unchecked")
     public void addTupleToListOfTuples(Tuple tupla) {
+
         int index = searchTupleInListOfTuples(tupla);
+
         if (index != -1) {
+
             Tuple tptmp = tuplesList.get(index);
             ArrayList<Object> lastTmp = (ArrayList<Object>) tptmp.getValue();
             lastTmp.add(tupla.getValue());
             tuplesList.set(index, new Tuple(tupla.getKey(), lastTmp));
+
         } else {
+            
             ArrayList<Object> lstTmp = new ArrayList<>();
             lstTmp.add(tupla.getValue());
             tuplesList.add(new Tuple(tupla.getKey(), lstTmp));
+
         }
     }
 

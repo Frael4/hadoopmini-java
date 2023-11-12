@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 /**
  * Se encarga de realizar los procesos de Map y Reduce
  */
 public class Task {
-    
+
     private String inputFile;
     private String outputFile;
     private int node;
@@ -33,7 +35,9 @@ public class Task {
      */
     public void run() {
 
+        //Instanciamos el manejador de archivos con el archivo de entrada y salida
         FileHandler fileHandler = new FileHandler(this.inputFile, this.outputFile);
+        //Instanciamos el buffer map
         BufferMap bufferMap = new BufferMap();
         ArrayList<Tuple> resultado = new ArrayList<>();
 
@@ -56,11 +60,11 @@ public class Task {
         long endTime = System.currentTimeMillis();
         double duration = (endTime - startTime) / 1000;
 
-        System.out.println("El proceso de map tomo: "+ duration + " segundos");
+        System.out.println("El proceso de map tomo: " + duration + " segundos");
 
         System.out.println("Iniciando proceso de Ordenamiento");
         startTime = System.currentTimeMillis();
-        
+
         bufferMap.sortBuffer();
         ArrayList<BufferReducer> sortedList = bufferMap.getSortedList();
 
@@ -83,7 +87,8 @@ public class Task {
         duration = (endTime - startTime) / 1000;
         System.out.println("El proceso de reduce tomo: " + duration + " segundos");
 
-        System.out.println("Los datos han sido guardados en: " + outputFile);
+        JOptionPane.showMessageDialog(null,"Los datos han sido guardados en: " + outputFile);
+
         fileHandler.saveResults(resultado);
     }
 

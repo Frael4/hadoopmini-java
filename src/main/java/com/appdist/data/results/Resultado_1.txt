@@ -1,0 +1,1 @@
+ El número de peticiones que han obtenido un código 404 (Not Found) es: 611
