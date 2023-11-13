@@ -30,9 +30,9 @@ public class Exercise_1 {
                 String[] words = element.getValue().toString().split(" ");
 
                 for (String w : words) {
-                    // busca y elimina todos los caracteres que NO son letras, dígitos o guiones
-                    // bajos en la cadena en minúsculas.
+                    // busca y elimina todos los caracteres que NO son letras, dígitos o guiones bajos en la cadena
                     String new_w = w.toLowerCase().replaceAll("[^\\w]", "");
+                    //Si es 404 agregamos a la salida
                     if (new_w.equals("404")) {
                         output.add(new Tuple(new_w, 1));
                     }

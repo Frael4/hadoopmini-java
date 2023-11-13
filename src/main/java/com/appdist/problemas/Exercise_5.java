@@ -30,20 +30,22 @@ public class Exercise_5 {
             @Override
             public void map(Tuple element, List<Tuple> output) {
 
-                String[] line = element.getValue().toString().split(" ");
+                String[] linea = element.getValue().toString().split(" ");
 
-                for (String item : line) {
-
+                for (String item : linea) {
+                    //Separamos las palabras
                     String[] lineData = item.split(",");
+                    //Obtenemos la columna precipitacion
                     double rainFall = Double.parseDouble(lineData[5]);
-
+                    //Si es mayor a 0
                     if (rainFall > 0) {
-
+                        //Guardamos la precipitacion, humedad relativa y sensacion termica
                         String rainfall = lineData[5];
                         String relativeHumidity = lineData[9];
                         String windChill = lineData[12];
 
                         String outputLine = "(" + rainfall + ", " + relativeHumidity + ", " + windChill + ")";
+                        //Agregamos el resultado a la salida
                         output.add(new Tuple(outputLine, 1));
                     }
                 }
@@ -67,12 +69,8 @@ public class Exercise_5 {
 
         tarea.setOutputFile("Resultado_5.txt");
         tarea.setInputFile("JCMB_last31days.csv");
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.println("Ingrese la cantidad de nodos para el trabajo: ");
-        //int nodos = scanner.nextInt();
         Integer nodos = Integer.parseInt(JOptionPane.showInputDialog(enunciado + "\n"+ "Ingrese la cantidad de nodos para el trabajo: "));
         tarea.setNode(nodos);
-        //scanner.close();
         tarea.run();
     }
 }

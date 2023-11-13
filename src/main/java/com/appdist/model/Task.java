@@ -20,6 +20,9 @@ public class Task {
     private MyReduce reduceFunction;
     private Object combinerFunction;
 
+    /**
+     * 
+     */
     public Task() {
 
         this.inputFile = "";
@@ -41,8 +44,10 @@ public class Task {
         BufferMap bufferMap = new BufferMap();
         ArrayList<Tuple> resultado = new ArrayList<>();
 
+        //Generamos el Buffer Map/ Lectura del archivo de entrada
         List<Tuple> lstBuffers = fileHandler.generateBufferMaps(node);
 
+        //Verficamos si el archivo de entrada es vacio
         if (lstBuffers.isEmpty()) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "No se ha podido cargar el archivo");
             return;
@@ -51,9 +56,13 @@ public class Task {
         System.out.println("Iniciando proceso de Map");
         long startTime = System.currentTimeMillis();
 
+        // Recorremos la lista de Buffers / la entrada
         for (Tuple tupla : lstBuffers) {
+            //Creamos una lista de Tuplas -> Salida
             ArrayList<Tuple> output = new ArrayList<>();
+            //Aplicamos la funcion map
             mapFunction.map(tupla, output);
+            //Pasamos la salida para la division
             bufferMap.splitBuffer(output, node);
         }
 
@@ -64,8 +73,9 @@ public class Task {
 
         System.out.println("Iniciando proceso de Ordenamiento");
         startTime = System.currentTimeMillis();
-
+        //Se ordena el resultado del proceso de mapeo utilizando el BufferMap.
         bufferMap.sortBuffer();
+        //Se obtiene la lista ordenada de objetos BufferReducer (sortedList).
         ArrayList<BufferReducer> sortedList = bufferMap.getSortedList();
 
         endTime = System.currentTimeMillis();
@@ -75,9 +85,11 @@ public class Task {
         System.out.println("Iniciando proceso de Reduce");
         startTime = System.currentTimeMillis();
 
+        //Se itera sobre cada objeto BufferReducer en la lista ordenada.
         for (BufferReducer bufferReducer : sortedList) {
+            //Para cada BufferReducer, se obtienen las tuplas asociadas.
             ArrayList<Tuple> lstTuplesReducer = bufferReducer.getTuplesList();
-
+            //Se aplica la función de reducción (reduceFunction) a cada tupla, y los resultados se agregan a la lista resultado
             for (Tuple tuplaReducer : lstTuplesReducer) {
                 reduceFunction.reduce(tuplaReducer, resultado);
             }
@@ -87,9 +99,10 @@ public class Task {
         duration = (endTime - startTime) / 1000;
         System.out.println("El proceso de reduce tomo: " + duration + " segundos");
 
-        JOptionPane.showMessageDialog(null,"Los datos han sido guardados en: " + outputFile);
-
+        //Guardamos los resultados
         fileHandler.saveResults(resultado);
+        
+        JOptionPane.showMessageDialog(null,"Los datos han sido guardados en: " + outputFile);
     }
 
     // Getters and Setters

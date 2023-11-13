@@ -28,14 +28,15 @@ public class Exercise_4 {
             @Override
             public void map(Tuple element, List<Tuple> output) {
 
-                // Asegurarse de que los índices correspondan a los campos correctos
-                String[] line = element.getValue().toString().split(" ");
+                //Obtenemos 
+                String[] words = element.getValue().toString().split(" ");
 
-                for (String item : line) {
+                for (String item : words) {
 
                     String[] lineData = item.split(",");
-
+                    //Si el contenido en la posicion 8 es diferente al de la posicion 12
                     if (!lineData[8].equals(lineData[12])) {
+                        // Agregamos a la salida el item (linea) con valor 1
                         output.add(new Tuple(item, 1));
                     }
 
@@ -59,12 +60,8 @@ public class Exercise_4 {
 
         tarea.setOutputFile("Resultado_4.txt");
         tarea.setInputFile("JCMB_last31days.csv");
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.println("Ingrese la cantidad de nodos para el trabajo: ");
-        //int nodos = scanner.nextInt();
         Integer nodos = Integer.parseInt(JOptionPane.showInputDialog(enunciado + "\n"+ "Ingrese la cantidad de nodos para el trabajo: "));
         tarea.setNode(nodos);
-        //scanner.close();
         tarea.run();
     }
 
